@@ -1,0 +1,32 @@
+services:
+  sim-board:
+    build: .
+    container_name: sim-board
+    ports:
+      - "8869:8869"
+    volumes:
+      - ${DATA_DIR:-./data}:/app/data
+    environment:
+      - PORT=8869
+      - DATA_DIR=/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8869/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    security_opt:
+      - no-new-privileges:true
+    read_only: false  # Set to true if you can make /app/data a tmpfs or bind mount
+    tmpfs:
+      - /tmp
+
