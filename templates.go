@@ -268,17 +268,19 @@ const leaderboardHTML = `<!DOCTYPE html>
         }
         
         .username {
-            font-size: 1.25em;
-            font-weight: 700;
+            font-size: 1.5em;
+            font-weight: 900;
             color: #FFFFFF;
             display: flex;
             align-items: center;
+            justify-content: flex-start;
             letter-spacing: 1px;
             text-transform: uppercase;
+            position: relative;
         }
         
         .scrollable-entries .username {
-            font-size: 1em;
+            font-size: 1.5em;
         }
         
         .time {
@@ -345,7 +347,7 @@ const leaderboardHTML = `<!DOCTYPE html>
     <div class="container">
         <div class="header">
             <h1>{{.Title}}</h1>
-            <div class="track-name">{{if .Track.Car}}<span class="track-car">{{.Track.Car}}</span><span class="track-at">at</span>{{end}}{{.Track.Name}}</div>
+            <div class="track-name">{{.Track.Name}}</div>
         </div>
         <div class="leaderboard">
             <div class="leaderboard-header">
@@ -359,15 +361,16 @@ const leaderboardHTML = `<!DOCTYPE html>
                         {{if le $entry.Position 3}}
                         <div class="entry position-{{$entry.Position}}">
                             <div class="position">#{{$entry.Position}}</div>
-                            <div class="username">{{$entry.Username}}</div>
-                            <div class="time" style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+                            <div class="username">
+                                <span>{{$entry.Username}}</span>
+                                {{if $entry.Car}}<span style="font-size: 0.7em; color: rgba(255, 255, 255, 0.5); font-weight: 400; text-transform: none; position: absolute; left: 50%; transform: translateX(-50%);">{{$entry.Car}}</span>{{end}}
+                            </div>
+                            <div class="time" style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
                                 <span>{{$entry.Time}}</span>
                                 {{if $.ShowAssistsLeaderboard}}
-                                <span style="font-size: 0.7em; color: rgba(255, 255, 255, 0.5); font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; line-height: 1.2; white-space: nowrap;">
-                                    <span style="color: rgba(255, 255, 255, 0.4);">ABS:</span> {{if $entry.ABS}}<span style="color: rgba(237, 28, 36, 0.8);">ON</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">OFF</span>{{end}} 
-                                    <span style="margin: 0 6px; color: rgba(255, 255, 255, 0.2);">|</span>
-                                    <span style="color: rgba(255, 255, 255, 0.4);">TRANS:</span> {{if $entry.AutoTransmission}}<span style="color: rgba(237, 28, 36, 0.8);">AUTO</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">MANUAL</span>{{end}} 
-                                    <span style="margin: 0 6px; color: rgba(255, 255, 255, 0.2);">|</span>
+                                <span style="font-size: 0.6em; color: rgba(255, 255, 255, 0.5); font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; line-height: 1.1; white-space: nowrap; margin-top: 2px;">
+                                    <span style="color: rgba(255, 255, 255, 0.4);">ABS:</span> {{if $entry.ABS}}<span style="color: rgba(237, 28, 36, 0.8);">ON</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">OFF</span>{{end}}<span style="margin: 0 2px; color: rgba(255, 255, 255, 0.2);">|</span>
+                                    <span style="color: rgba(255, 255, 255, 0.4);">TRANS:</span> {{if $entry.AutoTransmission}}<span style="color: rgba(237, 28, 36, 0.8);">AUTO</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">MANUAL</span>{{end}}<span style="margin: 0 2px; color: rgba(255, 255, 255, 0.2);">|</span>
                                     <span style="color: rgba(255, 255, 255, 0.4);">TC:</span> {{if $entry.TractionControl}}<span style="color: rgba(237, 28, 36, 0.8);">ON</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">OFF</span>{{end}}
                                 </span>
                                 {{end}}
@@ -383,15 +386,16 @@ const leaderboardHTML = `<!DOCTYPE html>
                         {{if gt $entry.Position 3}}
                         <div class="entry position-{{$entry.Position}}">
                             <div class="position">#{{$entry.Position}}</div>
-                            <div class="username">{{$entry.Username}}</div>
-                            <div class="time" style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+                            <div class="username">
+                                <span>{{$entry.Username}}</span>
+                                {{if $entry.Car}}<span style="font-size: 0.7em; color: rgba(255, 255, 255, 0.5); font-weight: 400; text-transform: none; position: absolute; left: 50%; transform: translateX(-50%);">{{$entry.Car}}</span>{{end}}
+                            </div>
+                            <div class="time" style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
                                 <span>{{$entry.Time}}</span>
                                 {{if $.ShowAssistsLeaderboard}}
-                                <span style="font-size: 0.7em; color: rgba(255, 255, 255, 0.5); font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; line-height: 1.2; white-space: nowrap;">
-                                    <span style="color: rgba(255, 255, 255, 0.4);">ABS:</span> {{if $entry.ABS}}<span style="color: rgba(237, 28, 36, 0.8);">ON</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">OFF</span>{{end}} 
-                                    <span style="margin: 0 6px; color: rgba(255, 255, 255, 0.2);">|</span>
-                                    <span style="color: rgba(255, 255, 255, 0.4);">TRANS:</span> {{if $entry.AutoTransmission}}<span style="color: rgba(237, 28, 36, 0.8);">AUTO</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">MANUAL</span>{{end}} 
-                                    <span style="margin: 0 6px; color: rgba(255, 255, 255, 0.2);">|</span>
+                                <span style="font-size: 0.6em; color: rgba(255, 255, 255, 0.5); font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; line-height: 1.1; white-space: nowrap; margin-top: 2px;">
+                                    <span style="color: rgba(255, 255, 255, 0.4);">ABS:</span> {{if $entry.ABS}}<span style="color: rgba(237, 28, 36, 0.8);">ON</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">OFF</span>{{end}}<span style="margin: 0 2px; color: rgba(255, 255, 255, 0.2);">|</span>
+                                    <span style="color: rgba(255, 255, 255, 0.4);">TRANS:</span> {{if $entry.AutoTransmission}}<span style="color: rgba(237, 28, 36, 0.8);">AUTO</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">MANUAL</span>{{end}}<span style="margin: 0 2px; color: rgba(255, 255, 255, 0.2);">|</span>
                                     <span style="color: rgba(255, 255, 255, 0.4);">TC:</span> {{if $entry.TractionControl}}<span style="color: rgba(237, 28, 36, 0.8);">ON</span>{{else}}<span style="color: rgba(76, 175, 80, 0.9);">OFF</span>{{end}}
                                 </span>
                                 {{end}}
@@ -413,8 +417,22 @@ const leaderboardHTML = `<!DOCTYPE html>
     <a href="/admin" class="admin-link">⚙️ Admin</a>
     {{end}}
     <script>
-        // Auto-refresh removed to prevent flickering
-        // Users can manually refresh if needed
+        // Auto-refresh for track rotation (always enabled)
+        (function() {
+            const rotationInterval = {{.RotationInterval}};
+            if (rotationInterval && rotationInterval >= 10) {
+                // Calculate time until next rotation
+                const now = Math.floor(Date.now() / 1000);
+                const currentInterval = Math.floor(now / rotationInterval);
+                const nextIntervalStart = (currentInterval + 1) * rotationInterval;
+                const secondsUntilRefresh = nextIntervalStart - now;
+                
+                // Refresh the page at the next interval boundary
+                setTimeout(function() {
+                    window.location.reload();
+                }, secondsUntilRefresh * 1000);
+            }
+        })();
         
         // Auto-scroll for entries after top 3
         (function() {
@@ -1100,10 +1118,6 @@ const adminHTML = `<!DOCTYPE html>
                     <div class="collapsible-content collapsed" id="track-management">
                         <div id="message-track" class="message"></div>
                         <div class="form-group">
-                            <label for="track-car">Car</label>
-                            <input type="text" id="track-car" placeholder="Enter car name (e.g., Mazda MX5)">
-                        </div>
-                        <div class="form-group">
                             <label for="track-name">Track Name</label>
                             <input type="text" id="track-name" placeholder="Enter track name">
                         </div>
@@ -1157,6 +1171,38 @@ const adminHTML = `<!DOCTYPE html>
                                 <label for="leaderboard-title" style="font-weight: 500; color: #ED1C24; text-transform: uppercase; letter-spacing: 1px; font-size: 0.875em; margin-bottom: 8px; display: block;">Leaderboard Title</label>
                                 <input type="text" id="leaderboard-title" placeholder="Sim Racing Leaderboard" style="width: 100%; padding: 10px 14px; border: 2px solid rgba(237, 28, 36, 0.3); background: #1A1F3A; color: #FFFFFF; border-radius: 0; font-size: 0.9375em; font-weight: 500; font-family: inherit; box-sizing: border-box;">
                             </div>
+                            
+                            <div class="form-group" style="margin-top: 16px;">
+                                <div class="collapsible-header" onclick="toggleCollapsible('track-rotation')" style="cursor: pointer; padding: 8px 0; margin-bottom: 12px;">
+                                    <span style="font-weight: 500; color: #ED1C24; text-transform: uppercase; letter-spacing: 1px; font-size: 0.875em;">Track Rotation</span>
+                                    <span class="collapsible-toggle" id="track-rotation-toggle" style="float: right; color: #ED1C24;">▼</span>
+                                </div>
+                                <div class="collapsible-content collapsed" id="track-rotation" style="display: flex; flex-direction: column; gap: 12px;">
+                                    <div class="form-group">
+                                        <label for="rotation-interval" style="font-weight: 500; color: #ED1C24; text-transform: uppercase; letter-spacing: 1px; font-size: 0.875em; margin-bottom: 8px; display: block;">Rotation Interval (seconds)</label>
+                                        <input type="number" id="rotation-interval" min="10" value="60" placeholder="60" style="width: 100%; padding: 10px 14px; border: 2px solid rgba(237, 28, 36, 0.3); background: #1A1F3A; color: #FFFFFF; border-radius: 0; font-size: 0.9375em; font-weight: 500; font-family: inherit; box-sizing: border-box;">
+                                    </div>
+                                    <div class="form-group">
+                                        <div style="margin-bottom: 8px;">
+                                            <label style="font-weight: 500; color: #ED1C24; text-transform: uppercase; letter-spacing: 1px; font-size: 0.875em; margin-bottom: 8px; display: block;">
+                                                Tracks on Leaderboard
+                                                <span class="tooltip-icon">
+                                                    ℹ️
+                                                    <span class="tooltip-text">All selected tracks will rotate. If only one track is selected, it will remain static.</span>
+                                                </span>
+                                            </label>
+                                            <div style="margin-bottom: 8px;">
+                                                <button type="button" class="btn" onclick="selectAllRotationTracks()" style="padding: 4px 12px; font-size: 0.75em; margin-right: 8px;">Select All</button>
+                                                <button type="button" class="btn" onclick="deselectAllRotationTracks()" style="padding: 4px 12px; font-size: 0.75em;">Deselect All</button>
+                                            </div>
+                                        </div>
+                                        <div id="rotation-tracks-list" style="max-height: 200px; overflow-y: auto; border: 1px solid rgba(237, 28, 36, 0.3); padding: 12px; background: #0A0E27;">
+                                            <!-- Track checkboxes will be populated here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <button class="btn" onclick="saveSettings()" style="padding: 8px 16px; font-size: 0.75em;">Save Settings</button>
                         </div>
                     </div>
@@ -1181,6 +1227,10 @@ const adminHTML = `<!DOCTYPE html>
                 <div class="form-group">
                     <label for="lap-time">Lap Time (e.g., 1:23.456 or 83.4)</label>
                     <input type="text" id="lap-time" placeholder="1:23.456 or 83.4">
+                </div>
+                <div class="form-group">
+                    <label for="lap-car">Car (optional)</label>
+                    <input type="text" id="lap-car" placeholder="e.g., Ferrari, Porsche">
                 </div>
                 <div class="form-group" style="margin-top: 16px;">
                     <div class="collapsible-header" onclick="toggleCollapsible('sim-assists')" style="cursor: pointer; padding: 8px 0;">
@@ -1329,14 +1379,7 @@ const adminHTML = `<!DOCTYPE html>
                 // Update track select
                 const select = document.getElementById('lap-track');
                 select.innerHTML = tracks.map(t => {
-                    let displayName = t.name;
-                    if (t.car && t.car.trim() !== '') {
-                        displayName = t.name + ' (' + t.car + ')';
-                    }
-                    if (t.is_active) {
-                        displayName += ' (Active)';
-                    }
-                    return '<option value="' + t.id + '">' + displayName + '</option>';
+                    return '<option value="' + t.id + '">' + t.name + '</option>';
                 }).join('');
                 
                 // Update tracks list
@@ -1345,17 +1388,14 @@ const adminHTML = `<!DOCTYPE html>
                     const isEditing = false;
                     return '<div class="track-item ' + (track.is_active ? 'active' : '') + '" id="track-item-' + track.id + '">' +
                         '<div>' +
-                            '<div class="track-name" id="track-name-' + track.id + '">' + (track.car ? '<span style="font-size: 0.85em; color: rgba(255, 255, 255, 0.5); margin-right: 8px;">' + track.car + '</span>' : '') + track.name + '</div>' +
+                            '<div class="track-name" id="track-name-' + track.id + '">' + track.name + '</div>' +
                             '<div class="track-edit-form" id="track-edit-' + track.id + '" style="display: none;">' +
-                                '<input type="text" id="edit-car-' + track.id + '" placeholder="Car" value="' + (track.car || '') + '" style="width: 150px; margin-right: 8px; padding: 4px; font-size: 0.85em;">' +
                                 '<input type="text" id="edit-name-' + track.id + '" placeholder="Track Name" value="' + track.name.replace(/'/g, "&#39;") + '" style="width: 200px; margin-right: 8px; padding: 4px; font-size: 0.85em;">' +
                                 '<button class="btn btn-secondary" onclick="saveTrack(' + track.id + ')" style="padding: 4px 12px; font-size: 0.75em; margin-right: 4px;">Save</button>' +
                                 '<button class="btn btn-secondary" onclick="cancelEdit(' + track.id + ')" style="padding: 4px 12px; font-size: 0.75em;">Cancel</button>' +
                             '</div>' +
-                            (track.is_active ? '<div class="track-status">● Active</div>' : '') +
                         '</div>' +
                         '<div class="actions">' +
-                            (!track.is_active ? '<button class="btn btn-secondary" onclick="setActiveTrack(' + track.id + ')">Set Active</button>' : '') +
                             '<button class="btn btn-secondary" onclick="editTrack(' + track.id + ')" title="Edit track" style="padding: 4px 8px; font-size: 0.75em; margin-right: 4px;">✏️</button>' +
                             '<button class="btn btn-danger" onclick="deleteTrack(' + track.id + ', \'' + track.name.replace(/'/g, "\\'") + '\')" title="Delete track">🗑️</button>' +
                         '</div>' +
@@ -1384,7 +1424,6 @@ const adminHTML = `<!DOCTYPE html>
         
         async function addTrack() {
             const name = document.getElementById('track-name').value.trim();
-            const car = document.getElementById('track-car').value.trim();
             if (!name) {
                 showMessage('message-track', 'Please enter a track name', 'error');
                 return;
@@ -1394,12 +1433,11 @@ const adminHTML = `<!DOCTYPE html>
                 const response = await fetch('/api/tracks', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, car })
+                    body: JSON.stringify({ name })
                 });
                 
                 if (response.ok) {
                     document.getElementById('track-name').value = '';
-                    document.getElementById('track-car').value = '';
                     showMessage('message-track', 'Track added successfully!', 'success');
                     loadTracks();
                 } else {
@@ -1452,8 +1490,9 @@ const adminHTML = `<!DOCTYPE html>
                         const absOn = lt.abs;
                         const transAuto = lt.auto_transmission;
                         const tcOn = lt.traction_control;
+                        const carDisplay = lt.car ? '<span style="font-size: 0.75em; color: rgba(255, 255, 255, 0.5); margin-left: 8px;">(' + lt.car + ')</span>' : '';
                         return '<div class="lap-time-item">' +
-                            '<div class="username">' + lt.username + '</div>' +
+                            '<div class="username">' + lt.username + carDisplay + '</div>' +
                             '<div class="time-container">' +
                                 '<div class="time" style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">' +
                                     '<span>' + lt.time + '</span>' +
@@ -1482,16 +1521,20 @@ const adminHTML = `<!DOCTYPE html>
             const trackId = document.getElementById('lap-track').value;
             const userId = document.getElementById('lap-user').value;
             
-            // Load existing lap time assists if editing
+            // Load existing lap time assists and car if editing
             if (trackId && userId && existingLapTimes[userId]) {
                 const existing = existingLapTimes[userId];
                 document.getElementById('lap-abs').checked = existing.abs || false;
                 document.getElementById('lap-mt').checked = existing.auto_transmission || false;
                 document.getElementById('lap-tc').checked = existing.traction_control || false;
+                document.getElementById('lap-car').value = existing.car || '';
+                document.getElementById('lap-time').value = existing.time || '';
             } else {
                 document.getElementById('lap-abs').checked = false;
                 document.getElementById('lap-mt').checked = false;
                 document.getElementById('lap-tc').checked = false;
+                document.getElementById('lap-car').value = '';
+                document.getElementById('lap-time').value = '';
             }
             const button = document.getElementById('lap-time-button');
             
@@ -1573,6 +1616,7 @@ const adminHTML = `<!DOCTYPE html>
                 const abs = document.getElementById('lap-abs').checked;
                 const mt = document.getElementById('lap-mt').checked;
                 const tc = document.getElementById('lap-tc').checked;
+                const car = document.getElementById('lap-car').value.trim();
                 const response = await fetch('/api/laptimes/add', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1580,6 +1624,7 @@ const adminHTML = `<!DOCTYPE html>
                         track_id: parseInt(trackId), 
                         user_id: parseInt(userId), 
                         time,
+                        car: car,
                         abs: abs,
                         auto_transmission: mt,
                         traction_control: tc
@@ -1588,6 +1633,7 @@ const adminHTML = `<!DOCTYPE html>
                 
                 if (response.ok) {
                     document.getElementById('lap-time').value = '';
+                    document.getElementById('lap-car').value = '';
                     document.getElementById('lap-abs').checked = false;
                     document.getElementById('lap-mt').checked = false;
                     document.getElementById('lap-tc').checked = false;
@@ -1630,46 +1676,148 @@ const adminHTML = `<!DOCTYPE html>
                 const titleResponse = await fetch('/api/settings/leaderboard-title');
                 const titleData = await titleResponse.json();
                 document.getElementById('leaderboard-title').value = titleData.value || 'Sim Racing Leaderboard';
+                
+                // Load rotation settings
+                const rotationResponse = await fetch('/api/settings/track-rotation');
+                const rotationData = await rotationResponse.json();
+                const rotationIntervalEl = document.getElementById('rotation-interval');
+                if (rotationIntervalEl) rotationIntervalEl.value = rotationData.interval || '60';
+                
+                // Load tracks for rotation selection (this will restore selected tracks)
+                await loadTracksForRotation();
             } catch (error) {
                 console.error('Error loading settings:', error);
             }
+        }
+        
+        async function loadTracksForRotation() {
+            try {
+                const response = await fetch('/api/tracks');
+                const tracks = await response.json();
+                const container = document.getElementById('rotation-tracks-list');
+                container.innerHTML = '';
+                
+                // Get selected tracks from rotation settings
+                const rotationResponse = await fetch('/api/settings/track-rotation');
+                let selectedTracks = [];
+                if (rotationResponse.ok) {
+                    const rotationData = await rotationResponse.json();
+                    if (rotationData.tracks && rotationData.tracks !== '' && rotationData.tracks !== 'all') {
+                        selectedTracks = rotationData.tracks.split(',').map(t => t.trim()).filter(t => t !== '');
+                    } else if (rotationData.tracks === 'all') {
+                        // If "all", select all tracks
+                        selectedTracks = tracks.map(t => t.id.toString());
+                    }
+                }
+                
+                // If no selected tracks, default to active track or first track
+                if (selectedTracks.length === 0) {
+                    const activeTrack = tracks.find(t => t.is_active);
+                    if (activeTrack) {
+                        selectedTracks = [activeTrack.id.toString()];
+                    } else if (tracks.length > 0) {
+                        selectedTracks = [tracks[0].id.toString()];
+                    }
+                }
+                
+                tracks.forEach(track => {
+                    const label = document.createElement('label');
+                    label.style.cssText = 'display: flex; align-items: center; cursor: pointer; margin: 0 0 8px 0;';
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = track.id;
+                    checkbox.checked = selectedTracks.includes(track.id.toString());
+                    checkbox.style.cssText = 'width: 20px; height: 20px; margin-right: 8px; cursor: pointer; flex-shrink: 0; box-sizing: border-box;';
+                    const span = document.createElement('span');
+                    span.style.cssText = 'font-weight: 500; color: #FFFFFF; font-size: 0.875em;';
+                    span.textContent = track.name;
+                    label.appendChild(checkbox);
+                    label.appendChild(span);
+                    container.appendChild(label);
+                });
+            } catch (error) {
+                console.error('Error loading tracks for rotation:', error);
+            }
+        }
+        
+        function selectAllRotationTracks() {
+            const checkboxes = document.querySelectorAll('#rotation-tracks-list input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = true);
+        }
+        
+        function deselectAllRotationTracks() {
+            const checkboxes = document.querySelectorAll('#rotation-tracks-list input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
         }
         
         async function saveSettings() {
             const showButton = document.getElementById('show-admin-button').checked;
             const showAssists = document.getElementById('show-assists-leaderboard').checked;
             const title = document.getElementById('leaderboard-title').value.trim() || 'Sim Racing Leaderboard';
+            
+            // Get rotation settings
+            const rotationInterval = document.getElementById('rotation-interval').value || '60';
+            const selected = Array.from(document.querySelectorAll('#rotation-tracks-list input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+            const rotationTracks = selected.length > 0 ? selected.join(',') : '';
+            
             try {
                 const response = await fetch('/api/settings/admin-button', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ value: showButton ? 'true' : 'false' })
                 });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    showMessage('message-settings', 'Error saving admin button setting: ' + errorText, 'error');
+                    return;
+                }
                 
                 const assistsResponse = await fetch('/api/settings/show-assists-leaderboard', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ value: showAssists ? 'true' : 'false' })
                 });
+                if (!assistsResponse.ok) {
+                    const errorText = await assistsResponse.text();
+                    showMessage('message-settings', 'Error saving assists setting: ' + errorText, 'error');
+                    return;
+                }
                 
                 const titleResponse = await fetch('/api/settings/leaderboard-title', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ value: title })
                 });
+                if (!titleResponse.ok) {
+                    const errorText = await titleResponse.text();
+                    showMessage('message-settings', 'Error saving title setting: ' + errorText, 'error');
+                    return;
+                }
                 
-                if (response.ok && assistsResponse.ok && titleResponse.ok) {
-                    showMessage('message-settings', 'Settings saved successfully!', 'success');
-                    // Reload lap times to update display
-                    const trackId = document.getElementById('lap-track').value;
-                    if (trackId) {
-                        loadLapTimes(parseInt(trackId));
-                    }
-                } else {
-                    showMessage('message-settings', 'Error saving settings', 'error');
+                const rotationResponse = await fetch('/api/settings/track-rotation', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        enabled: 'true',
+                        tracks: rotationTracks,
+                        interval: rotationInterval
+                    })
+                });
+                if (!rotationResponse.ok) {
+                    const errorText = await rotationResponse.text();
+                    showMessage('message-settings', 'Error saving rotation settings: ' + errorText, 'error');
+                    return;
+                }
+                
+                showMessage('message-settings', 'Settings saved successfully!', 'success');
+                // Reload lap times to update display
+                const trackId = document.getElementById('lap-track').value;
+                if (trackId) {
+                    loadLapTimes(parseInt(trackId));
                 }
             } catch (error) {
-                showMessage('message-settings', 'Error saving settings', 'error');
+                showMessage('message-settings', 'Error saving settings: ' + error.message, 'error');
             }
         }
         
@@ -1684,6 +1832,21 @@ const adminHTML = `<!DOCTYPE html>
                 content.classList.remove('expanded');
                 content.classList.add('collapsed');
                 toggle.textContent = '▼';
+            }
+        }
+        
+        // Global function to update rotation display
+        function updateRotationDisplay() {
+            const rotationAll = document.getElementById('rotation-all');
+            const rotationCustom = document.getElementById('rotation-custom');
+            const rotationTracksList = document.getElementById('rotation-tracks-list');
+            
+            if (rotationAll && rotationCustom && rotationTracksList) {
+                if (rotationAll.checked) {
+                    rotationTracksList.style.display = 'none';
+                } else if (rotationCustom.checked) {
+                    rotationTracksList.style.display = 'block';
+                }
             }
         }
         
@@ -1765,7 +1928,6 @@ const adminHTML = `<!DOCTYPE html>
         }
         
         async function saveTrack(trackId) {
-            const car = document.getElementById('edit-car-' + trackId).value.trim();
             const name = document.getElementById('edit-name-' + trackId).value.trim();
             
             if (!name) {
@@ -1777,7 +1939,7 @@ const adminHTML = `<!DOCTYPE html>
                 const response = await fetch('/api/tracks/' + trackId, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: trackId, name, car })
+                    body: JSON.stringify({ id: trackId, name })
                 });
                 
                 if (response.ok) {
