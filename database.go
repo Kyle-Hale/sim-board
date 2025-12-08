@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strconv"
 	"strings"
 )
 
@@ -132,6 +133,26 @@ func (app *App) initDB() {
 		app.DB.Exec("ALTER TABLE lap_times ADD COLUMN traction_control INTEGER DEFAULT 0")
 	}
 
+	// Add car column to lap_times table
+	var carColExists int
+	app.DB.QueryRow("SELECT COUNT(*) FROM pragma_table_info('lap_times') WHERE name='car'").Scan(&carColExists)
+	if carColExists == 0 {
+		app.DB.Exec("ALTER TABLE lap_times ADD COLUMN car TEXT")
+		// Migrate car data from tracks to lap_times for existing entries
+		// This sets car on lap_times based on the track's car for existing records
+		app.DB.Exec(`
+			UPDATE lap_times 
+			SET car = (
+				SELECT t.car 
+				FROM tracks t 
+				WHERE t.id = lap_times.track_id 
+				AND t.car IS NOT NULL 
+				AND t.car != ''
+			)
+			WHERE car IS NULL OR car = ''
+		`)
+	}
+
 	var count int
 	app.DB.QueryRow("SELECT COUNT(*) FROM tracks").Scan(&count)
 	if count == 0 {
@@ -163,6 +184,39 @@ func (app *App) initDB() {
 	app.DB.QueryRow("SELECT COUNT(*) FROM settings WHERE key = 'leaderboard_title'").Scan(&titleSettingCount)
 	if titleSettingCount == 0 {
 		app.DB.Exec("INSERT INTO settings (key, value) VALUES ('leaderboard_title', 'Sim Racing Leaderboard')")
+	}
+
+	// Initialize track rotation settings
+	var rotationEnabledCount int
+	app.DB.QueryRow("SELECT COUNT(*) FROM settings WHERE key = 'track_rotation_enabled'").Scan(&rotationEnabledCount)
+	if rotationEnabledCount == 0 {
+		app.DB.Exec("INSERT INTO settings (key, value) VALUES ('track_rotation_enabled', 'false')")
+	}
+
+	var rotationTracksCount int
+	app.DB.QueryRow("SELECT COUNT(*) FROM settings WHERE key = 'track_rotation_tracks'").Scan(&rotationTracksCount)
+	if rotationTracksCount == 0 {
+		app.DB.Exec("INSERT INTO settings (key, value) VALUES ('track_rotation_tracks', '')")
+	}
+
+	var rotationIntervalCount int
+	app.DB.QueryRow("SELECT COUNT(*) FROM settings WHERE key = 'track_rotation_interval'").Scan(&rotationIntervalCount)
+	if rotationIntervalCount == 0 {
+		app.DB.Exec("INSERT INTO settings (key, value) VALUES ('track_rotation_interval', '60')")
+	}
+
+	// Initialize leaderboard tracks setting
+	var leaderboardTracksCount int
+	app.DB.QueryRow("SELECT COUNT(*) FROM settings WHERE key = 'leaderboard_tracks'").Scan(&leaderboardTracksCount)
+	if leaderboardTracksCount == 0 {
+		// Default to active track if exists
+		var activeTrackID int
+		err := app.DB.QueryRow("SELECT id FROM tracks WHERE is_active = 1 LIMIT 1").Scan(&activeTrackID)
+		if err == nil {
+			app.DB.Exec("INSERT INTO settings (key, value) VALUES ('leaderboard_tracks', ?)", strconv.Itoa(activeTrackID))
+		} else {
+			app.DB.Exec("INSERT INTO settings (key, value) VALUES ('leaderboard_tracks', '')")
+		}
 	}
 
 	// Migrate all existing usernames to uppercase for consistency

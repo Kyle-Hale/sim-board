@@ -26,6 +26,7 @@ type LapTime struct {
 	UserID           int    `json:"user_id"`
 	Username         string `json:"username"`
 	Time             string `json:"time"`
+	Car              string `json:"car"`
 	ABS              bool   `json:"abs"`
 	AutoTransmission bool   `json:"auto_transmission"`
 	TractionControl  bool   `json:"traction_control"`
@@ -36,6 +37,7 @@ type LeaderboardEntry struct {
 	UserID           int    `json:"user_id"`
 	Username         string `json:"username"`
 	Time             string `json:"time"`
+	Car              string `json:"car"`
 	Position         int    `json:"position"`
 	ABS              bool   `json:"abs"`
 	AutoTransmission bool   `json:"auto_transmission"`

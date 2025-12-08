@@ -59,6 +59,8 @@ func main() {
 	http.HandleFunc("/api/settings/admin-button", app.handleAdminButtonSetting)
 	http.HandleFunc("/api/settings/show-assists-leaderboard", app.handleShowAssistsLeaderboardSetting)
 	http.HandleFunc("/api/settings/leaderboard-title", app.handleLeaderboardTitleSetting)
+	http.HandleFunc("/api/settings/leaderboard-tracks", app.handleLeaderboardTracksSetting)
+	http.HandleFunc("/api/settings/track-rotation", app.handleTrackRotationSettings)
 
 	port := os.Getenv("PORT")
 	if port == "" {
